@@ -1,0 +1,210 @@
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/Account.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "0206b262-3200-1eed-b4c7-0e19c7b9cd5f",
+  "event-type": "Account.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "0206b262-3200-1eed-b4c7-0e19c7b9cd5f",
+  "event-time": "2023-04-03T15:58:48Z",
+  "data": {
+    "root-entity-id": "0206B26232001EDDB3B24503658E1885",
+    "entity-id": "0206B26232001EDDB3B24503658E1885",
+    "Changes": [
+      {
+        "node": "Account",
+        "nodeID": "0206B26232001EDDB3B24503658E1885",
+        "ParentNodeID": "",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "PartialSystemAdministrativeData/LastChangeDateTime",
+            "New": "2023-04-03T15:58:48.4412280Z",
+            "Old": "2023-04-03T15:57:04.2515700Z"
+          }
+        ]
+      },
+      {
+        "node": "Address.Root",
+        "nodeID": "0206B26232001EDDB3B24503658E9885",
+        "ParentNodeID": "0206B26232001EDDB3B24503658E9885",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "ChangeCountNumberValue",
+            "New": "1 ",
+            "Old": "0 "
+          }
+        ]
+      },
+      {
+        "node": "Common",
+        "nodeID": "0206B26232001EDDB3B24503658E7885",
+        "ParentNodeID": "0206B26232001EDDB3B24503658E1885",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "BusinessPartnerFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "SortingFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "BusinessPartnerName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "Organisation/Name/FirstLineName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          }
+        ]
+      },
+      {
+        "node": "Name",
+        "nodeID": "0206B26232001EDDB3B24503658FD885",
+        "ParentNodeID": "0206B26232001EDDB3B24503658E7885",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "BusinessPartnerFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "SortingFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "Organisation/Name/FirstLineName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+###
+POST http://localhost:4004/restapi/VerifyEventPayload
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/Account.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "0206b262-3200-1eed-b4c7-0e19c7b9cd5f",
+  "event-type": "Account.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "0206b262-3200-1eed-b4c7-0e19c7b9cd5f",
+  "event-time": "2023-04-03T15:58:48Z",
+  "data": {
+    "root-entity-id": "0206B26232001EDDB3B24503658E1885",
+    "entity-id": "0206B26232001EDDB3B24503658E1885",
+    "Changes": [
+      {
+        "node": "Account",
+        "nodeID": "0206B26232001EDDB3B24503658E1885",
+        "ParentNodeID": "",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "PartialSystemAdministrativeData/LastChangeDateTime",
+            "New": "2023-04-03T15:58:48.4412280Z",
+            "Old": "2023-04-03T15:57:04.2515700Z"
+          }
+        ]
+      },
+      {
+        "node": "Address.Root",
+        "nodeID": "0206B26232001EDDB3B24503658E9885",
+        "ParentNodeID": "0206B26232001EDDB3B24503658E9885",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "ChangeCountNumberValue",
+            "New": "1 ",
+            "Old": "0 "
+          }
+        ]
+      },
+      {
+        "node": "Common",
+        "nodeID": "0206B26232001EDDB3B24503658E7885",
+        "ParentNodeID": "0206B26232001EDDB3B24503658E1885",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "BusinessPartnerFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "SortingFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "BusinessPartnerName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "Organisation/Name/FirstLineName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          }
+        ]
+      },
+      {
+        "node": "Name",
+        "nodeID": "0206B26232001EDDB3B24503658FD885",
+        "ParentNodeID": "0206B26232001EDDB3B24503658E7885",
+        "Modification": "Updated",
+        "ChangedBy": "B403675",
+        "ChangedFields": [
+          {
+            "Fieldname": "BusinessPartnerFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "SortingFormattedName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          },
+          {
+            "Fieldname": "Organisation/Name/FirstLineName",
+            "New": "BB BTP Account 3.3",
+            "Old": "BB BTP Account 3.2"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+###
+POST http://localhost:4004/restapi/VerifyEventPayload
+Content-Type: application/json
+
+{
+  "specversion": "1.0"
+}

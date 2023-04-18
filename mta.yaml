@@ -1,0 +1,45 @@
+---
+_schema-version: '3.1'
+ID: c4c-md-xchange
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx -p @sap/cds-dk cds build --production
+
+modules:
+  - name: c4c-md-xchange-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: c4c-md-xchange-auth
+      - name: c4c-md-xchange-dest
+resources:
+  - name: c4c-md-xchange-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+      service-name: c4c-md-xchange-auth
+      config:
+        xsappname: c4c-md-xchange-${org}-${space}
+        tenant-mode: dedicated
+  - name: c4c-md-xchange-dest
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: c4c-md-xchange-dest
+      service-plan: lite
