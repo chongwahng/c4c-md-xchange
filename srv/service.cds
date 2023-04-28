@@ -1,5 +1,5 @@
-@protocol: 'rest'
-service ClientLinkDataXchange @(path: 'restapi') {
+@protocol : 'rest'
+service ClientLinkDataXchange @(path : 'restapi') {
     type Data {
         ![root-entity-id] : String;
         ![entity-id]      : String;
@@ -17,8 +17,10 @@ service ClientLinkDataXchange @(path: 'restapi') {
         }
     }
 
-    action EnrichData(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data) returns String;
-    action VerifyEventPayload(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data) returns String;
+    type JsonMessage {}
+
+    action EnrichData(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data)         returns JsonMessage;
+    action VerifyEventPayload(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data) returns JsonMessage;
 }
 
-annotate ClientLinkDataXchange.EnrichData with @(requires: 'system-user');
+annotate ClientLinkDataXchange.EnrichData with @(requires : 'system-user');

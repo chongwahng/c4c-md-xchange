@@ -37,7 +37,7 @@ module.exports = async function (srv) {
         if (req.data) {
             let eventObj = req.data
             console.log(eventObj)
-            return JSON.stringify(eventObj)
+            return eventObj // JSON.stringify(eventObj)
         }
     })
 }

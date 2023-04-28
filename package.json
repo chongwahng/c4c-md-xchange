@@ -48,7 +48,12 @@
   "cds": {
     "requires": {
       "auth": {
-        "kind": "xsuaa"
+        "[development]": {
+          "kind": "dummy"
+        },
+        "[production]": {
+          "kind": "xsuaa"
+        }
       }
     }
   }

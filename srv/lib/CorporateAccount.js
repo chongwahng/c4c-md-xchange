@@ -9,9 +9,10 @@ class CorporateAccount {
 
         try {
             const destination = await getDestination(destinationName)
-
+            //console.log(destination.originalProperties)
             const accountProperties =
                 `AccountID,` +
+                `RoleCode,` +
                 `ExternalID,` +
                 `BusinessPartnerFormattedName,` +
                 `LifeCycleStatusCode,` +
@@ -32,7 +33,9 @@ class CorporateAccount {
             const salesDataProperties =
                 `CorporateAccountSalesData/PaymentMethod_KUT,` +
                 `CorporateAccountSalesData/DeliveryMethod_KUT,` +
-                `CorporateAccountSalesData/SalesOrganisationID`
+                `CorporateAccountSalesData/SalesOrganisationID,` +
+                `CorporateAccountSalesData/DistributionChannelCode,` +
+                `CorporateAccountSalesData/DivisionCode`
 
             const teamProperties =
                 `CorporateAccountTeam/EmployeeID,` +
@@ -40,7 +43,9 @@ class CorporateAccount {
                 `CorporateAccountTeam/PartyRoleCode`
 
             const taxNumberProperties =
-                `CorporateAccountTaxNumber/TaxID`
+                `CorporateAccountTaxNumber/TaxID,` +
+                `CorporateAccountTaxNumber/CountryCode,` +
+                `CorporateAccountTaxNumber/TaxTypeCode`
 
             let apiURL =
                 `/sap/c4c/odata/v1/c4codataapi/CorporateAccountCollection?` +
@@ -59,15 +64,15 @@ class CorporateAccount {
                     url: apiURL
                 }
             )
-            outboundMessagePayload.EventName = 'CorporateAcccount'
-            outboundMessagePayload.EventType = targetEvent
-            outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
-            
-            outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
             const accountCollection = response.data.d.results[0]
 
+            outboundMessagePayload.EventName = 'CorporateAccount'
+            outboundMessagePayload.EventType = targetEvent
+            outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
+
             outboundMessagePayload.Entity.AccountId = accountCollection.AccountID
+            outboundMessagePayload.Entity.Role = accountCollection.RoleCode
             outboundMessagePayload.Entity.ERPAccountID = accountCollection.ExternalID
             outboundMessagePayload.Entity.AccountName = accountCollection.BusinessPartnerFormattedName
             outboundMessagePayload.Entity.AccountStatus = accountCollection.LifeCycleStatusCode
@@ -77,6 +82,7 @@ class CorporateAccount {
 
             if (accountCollection.CorporateAccountAddress.length === 1) {
                 const addressCollection = accountCollection.CorporateAccountAddress[0]
+
                 if (addressCollection.BillTo) {
                     outboundMessagePayload.Entity.InvoicingHouseNumber = addressCollection.HouseNumber
                     outboundMessagePayload.Entity.InvoicingAddress1 = addressCollection.Street
@@ -96,23 +102,63 @@ class CorporateAccount {
                 }
             }
 
-            if (accountCollection.CorporateAccountTeam.length === 1) {
-                const teamCollection = accountCollection.CorporateAccountTeam[0]
-                if ((teamCollection.MainIndcator === true && teamCollection.PartyRoleCode === '142') || teamCollection.PartyRoleCode === '142') {
-                    outboundMessagePayload.Entity.SalesRepCode = teamCollection.EmployeeID
+            for (let team of accountCollection.CorporateAccountTeam.entries()) {
+                if ((team[1].MainIndcator === true && team[1].PartyRoleCode === '142') || team[1].PartyRoleCode === '142') {
+                    outboundMessagePayload.Entity.SalesRepCode = team[1].EmployeeID
                 }
             }
 
-            if (accountCollection.CorporateAccountSalesData.length === 1) {
-                const salesDataCollection = accountCollection.CorporateAccountSalesData
-                outboundMessagePayload.Entity.PaymentMethods = salesDataCollection.PaymentMethod_KUT
-                outboundMessagePayload.Entity.DeliveryMethods = salesDataCollection.DeliveryMethod_KUT
-                outboundMessagePayload.Entity.OrganisationId = salesDataCollection.SalesOrganisationID
+            outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
+
+            for (let salesData of accountCollection.CorporateAccountSalesData.entries()) {
+                let topic = ''
+
+                outboundMessagePayload.Entity.PaymentMethods = salesData[1].PaymentMethod_KUT
+                outboundMessagePayload.Entity.DeliveryMethods = salesData[1].DeliveryMethod_KUT
+                outboundMessagePayload.Entity.OrganisationId = salesData[1].SalesOrganisationID
+                outboundMessagePayload.Entity.DistributionChannel = salesData[1].DistributionChannelCode
+                outboundMessagePayload.Entity.Division = salesData[1].DivisionCode
+
+                if (
+                    (salesData[1].SalesOrganisationID === 'NLDN' && salesData[1].DistributionChannelCode === '01' && salesData[1].DivisionCode === 'TR')
+                    || (salesData[1].SalesOrganisationID === 'AC-FR-SALES-CSG')
+                    || (salesData[1].SalesOrganisationID === 'TAC')
+                    || (salesData[1].SalesOrganisationID === 'TAS')
+                ) {
+                    if (accountCollection.RoleCode === 'CRM000' || accountCollection.RoleCode === 'ZSHIP') {
+                        topic = `sg/corporateaccount/v1` +
+                            `/${salesData[1].SalesOrganisationID}` +
+                            `/${salesData[1].DistributionChannelCode}` +
+                            `/${salesData[1].DivisionCode}` +
+                            `/${accountCollection.RoleCode}`
+                        outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
+                    }
+                }
+
+                topic = `ppginc/corporateaccount/v1` +
+                    `/${salesData[1].SalesOrganisationID}` +
+                    `/${salesData[1].DistributionChannelCode}` +
+                    `/${salesData[1].DivisionCode}` +
+                    `/${accountCollection.RoleCode}`
+
+                outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
             }
 
             if (accountCollection.CorporateAccountTaxNumber.length === 1) {
                 const taxNumberCollection = accountCollection.CorporateAccountTaxNumber
-                outboundMessagePayload.Entity.TaxId = taxNumberCollection.TaxID
+                if (
+                    (taxNumberCollection.TaxTypeCode === '2' && taxNumberCollection.CountryCode === 'FR') ||
+                    (
+                        taxNumberCollection.TaxTypeCode === '3' &&
+                        (
+                            taxNumberCollection.CountryCode === 'NL' || taxNumberCollection.CountryCode === 'CZ' ||
+                            taxNumberCollection.CountryCode === 'SK' || taxNumberCollection.CountryCode === 'GB'
+                        )
+                    )
+                ) {
+                    outboundMessagePayload.Entity.TaxId = taxNumberCollection.TaxID
+                    outboundMessagePayload.Entity.CompanyID = taxNumberCollection.TaxID
+                }
             }
 
             apiURL =
@@ -131,13 +177,18 @@ class CorporateAccount {
             if (response.data.d.results.length > 0) {
                 const itemCollection = response.data.d.results[0]
 
-                if (itemCollection.BusinessAttributeSetID === 'ZFRL_01' && itemCollection.BusinessAttributeValue === 'Z10401' && itemCollection.BusinessAttributeID === 'Z104') {
+                if (itemCollection.BusinessAttributeSetID === 'ZFRL_01' &&
+                    itemCollection.BusinessAttributeValue === 'Z10401' &&
+                    itemCollection.BusinessAttributeID === 'Z104') {
+
                     outboundMessagePayload.Entity.FidelityProgram = 'PackPro'
+
                 } else if (itemCollection.BusinessAttributeValue === 'P30') {
                     outboundMessagePayload.Entity.FidelityProgram = 'PPG'
                 }
             }
-            return JSON.stringify(outboundMessagePayload)
+
+            return outboundMessagePayload
         }
         catch (err) {
             errorHandler.print(err)

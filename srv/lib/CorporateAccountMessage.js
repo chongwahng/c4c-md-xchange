@@ -5,11 +5,12 @@ class messagePayload {
             EventType: '',
             EventTriggeredOn: '',
             EventSpecInfo: {
-                Topic: '',
+                TopicStrings: [],
                 OriginalEventName: ''
             },            
             Entity: {
                 AccountId: '',
+                Role: '',
                 ERPAccountID: '',
                 AccountName: '',
                 AccountStatus: '',
@@ -34,10 +35,13 @@ class messagePayload {
                 PaymentMethods: '',
                 DeliveryMethods: '',
                 OrganisationId: '',
+                DistributionChannel: '',
+                Division: '',
 
                 SalesRepCode: '',
                 FidelityProgram: '',
-                TaxId: ''
+                TaxId: '',
+                CompanyID: ''
             }
         }
 

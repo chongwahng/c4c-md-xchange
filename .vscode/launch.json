@@ -12,6 +12,22 @@
       "skipFiles": [
         "<node_internals>/**"
       ]
+    },
+    {
+      "name": "workaround: cds serve",
+      "request": "launch",
+      "type": "node",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npx",
+      "args": [
+        "cds",
+        "serve",
+        "--with-mocks",
+        "--in-memory?"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
     }
   ]
 }
