@@ -209,3 +209,10 @@ Content-Type: application/json
 {
   "specversion": "1.0"
 }
+
+###
+
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{"specversion": "1.0", "type": "/sap.c4c/Account.Root.Updated", "source": "/XAF/sap.c4c/000000000740890287", "id": "01e95891-c12d-1eed-bae4-1dbb2cc2d656", "event-type": "Account.Root.Updated", "event-type-version": "v1", "event-id": "01e95891-c12d-1eed-bae4-1dbb2cc2d656", "event-time": "2023-05-05T08:43:26Z", "data": { "root-entity-id":"06454995F7A61EDDB0CC3A0E78E0AC1E", "entity-id":"06454995F7A61EDDB0CC3A0E78E0AC1E", "Changes": [ { "node":"Account", "nodeID":"06454995F7A61EDDB0CC3A0E78E0AC1E", "ParentNodeID":"", "Modification":"Updated", "ChangedBy":"DMOHAPATRA", "ChangedFields": [ { "Fieldname":"PartialSystemAdministrativeData/LastChangeDateTime", "New":"2023-05-05T08:43:26.9485110Z", "Old":"2023-04-18T10:03:29.6236610Z" } ] }, { "node":"Common", "nodeID":"06454995F7A61EDDB0CC3A0E78E10C1E", "ParentNodeID":"06454995F7A61EDDB0CC3A0E78E0AC1E", "Modification":"Updated", "ChangedBy":"DMOHAPATRA", "ChangedFields": [ { "Fieldname":"Parent Account Marketing", "New":"\"ABC\" Agnieszka Tyszka TEST1", "Old":"\"ABC\" Agnieszka Tyszka" } ] } ] }}

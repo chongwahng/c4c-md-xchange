@@ -110,38 +110,42 @@ class CorporateAccount {
 
             outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
-            for (let salesData of accountCollection.CorporateAccountSalesData.entries()) {
-                let topic = ''
+            const placeHolder = '_'
 
-                outboundMessagePayload.Entity.PaymentMethods = salesData[1].PaymentMethod_KUT
-                outboundMessagePayload.Entity.DeliveryMethods = salesData[1].DeliveryMethod_KUT
-                outboundMessagePayload.Entity.OrganisationId = salesData[1].SalesOrganisationID
-                outboundMessagePayload.Entity.DistributionChannel = salesData[1].DistributionChannelCode
-                outboundMessagePayload.Entity.Division = salesData[1].DivisionCode
+            if (accountCollection.CorporateAccountSalesData.length === 0) {
+                // no sales area data, just build generic topic string
+                outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/corporateaccount/v1/${placeHolder}/${placeHolder}/${placeHolder}/${placeHolder}`)
+            } else {
+                let roleCode = (accountCollection.RoleCode === '') ? placeHolder : accountCollection.RoleCode
 
-                if (
-                    (salesData[1].SalesOrganisationID === 'NLDN' && salesData[1].DistributionChannelCode === '01' && salesData[1].DivisionCode === 'TR')
-                    || (salesData[1].SalesOrganisationID === 'AC-FR-SALES-CSG')
-                    || (salesData[1].SalesOrganisationID === 'TAC')
-                    || (salesData[1].SalesOrganisationID === 'TAS')
-                ) {
-                    if (accountCollection.RoleCode === 'CRM000' || accountCollection.RoleCode === 'ZSHIP') {
-                        topic = `sg/corporateaccount/v1` +
-                            `/${salesData[1].SalesOrganisationID}` +
-                            `/${salesData[1].DistributionChannelCode}` +
-                            `/${salesData[1].DivisionCode}` +
-                            `/${accountCollection.RoleCode}`
-                        outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
+                for (let salesData of accountCollection.CorporateAccountSalesData.entries()) {
+                    let topic = ''
+
+                    outboundMessagePayload.Entity.PaymentMethods = salesData[1].PaymentMethod_KUT
+                    outboundMessagePayload.Entity.DeliveryMethods = salesData[1].DeliveryMethod_KUT
+                    outboundMessagePayload.Entity.OrganisationId = salesData[1].SalesOrganisationID
+                    outboundMessagePayload.Entity.DistributionChannel = salesData[1].DistributionChannelCode
+                    outboundMessagePayload.Entity.Division = salesData[1].DivisionCode
+
+                    let salesOrganisationID = (salesData[1].SalesOrganisationID === '') ? placeHolder : salesData[1].SalesOrganisationID
+                    let distributionChannelCode = (salesData[1].DistributionChannelCode === '') ? placeHolder : salesData[1].DistributionChannelCode
+                    let divisionCode = (salesData[1].DivisionCode === '') ? placeHolder : salesData[1].DivisionCode
+
+                    if (
+                        (salesOrganisationID === 'NLDN' && distributionChannelCode === '01' && divisionCode === 'TR')
+                        || (salesOrganisationID === 'AC-FR-SALES-CSG')
+                        || (salesOrganisationID === 'TAC')
+                        || (salesOrganisationID === 'TAS')
+                    ) {
+                        if (roleCode === 'CRM000' || roleCode === 'ZSHIP') {
+                            topic = `sg/corporateaccount/v1` + `/${salesOrganisationID}` + `/${distributionChannelCode}` + `/${divisionCode}` + `/${roleCode}`
+                            outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
+                        }
                     }
+
+                    topic = `ppginc/corporateaccount/v1` + `/${salesOrganisationID}` + `/${distributionChannelCode}` + `/${divisionCode}` + `/${roleCode}`
+                    outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
                 }
-
-                topic = `ppginc/corporateaccount/v1` +
-                    `/${salesData[1].SalesOrganisationID}` +
-                    `/${salesData[1].DistributionChannelCode}` +
-                    `/${salesData[1].DivisionCode}` +
-                    `/${accountCollection.RoleCode}`
-
-                outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
             }
 
             if (accountCollection.CorporateAccountTaxNumber.length === 1) {

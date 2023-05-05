@@ -1,4 +1,5 @@
 const { errorHandler } = require('./lib/ErrorHandler')
+const { messagePayload } = require('./lib/UnknownEventMessage')
 
 // Data provider class source file location - mandatory to add here to handle new CL events
 const { CorporateAccount } = require('./lib/CorporateAccount')
@@ -25,7 +26,15 @@ module.exports = async function (srv) {
         if (eventObj) {
             try {
                 let idx = dataProviders.findIndex((obj) => obj.eventType === `${eventObj['event-type']}`)
-                return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEvent)
+
+                if (idx === -1) { // cannot find event handler, will just return unknown event message output
+                    let outboundMessagePayload = messagePayload.initialize()
+                    outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
+                    outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
+                    return outboundMessagePayload
+                } else {
+                    return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEvent)
+                }
             }
             catch (err) {
                 errorHandler.print(err)
@@ -37,7 +46,7 @@ module.exports = async function (srv) {
         if (req.data) {
             let eventObj = req.data
             console.log(eventObj)
-            return eventObj // JSON.stringify(eventObj)
+            return eventObj 
         }
     })
 }
