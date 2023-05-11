@@ -1,11 +1,11 @@
 const { errorHandler } = require('./lib/ErrorHandler')
 const { messagePayload } = require('./lib/UnknownEventMessage')
 
-// Data provider class source file location - mandatory to add here to handle new CL events
+// Data provider class source file location - mandatory to add here to handle new ClientLink events
 const { CorporateAccount } = require('./lib/CorporateAccount')
 const { IndividualCustomer } = require('./lib/IndividualCustomer')
 
-// Data provider class event type mapping table - mandatory to add here to handle new CL events
+// Data provider class event type mapping table - mandatory to add here to handle new ClientLink events
 const dataProviders = [
     { eventType: 'Account.Root.Created', targetEvent: 'Created', class: CorporateAccount },
     { eventType: 'Account.Root.Updated', targetEvent: 'Updated', class: CorporateAccount },
@@ -22,18 +22,18 @@ module.exports = async function (srv) {
 
     this.on('EnrichData', async (req) => {
         let eventObj = req.data
-
+        let exceptionTargetObj = messagePayload.initialize()
+        
         if (eventObj) {
+            exceptionTargetObj.EventTriggeredOn = eventObj['event-time']
+            exceptionTargetObj.EventSpecInfo.OriginalEventName = eventObj['event-type']    
             try {
                 let idx = dataProviders.findIndex((obj) => obj.eventType === `${eventObj['event-type']}`)
 
-                if (idx === -1) { // cannot find event handler, will just return unknown event message output
-                    let outboundMessagePayload = messagePayload.initialize()
-                    outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
-                    outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
-                    return outboundMessagePayload
+                if (idx === -1) { // cannot find event handler, will just return unknown/exception target object
+                    return exceptionTargetObj
                 } else {
-                    return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEvent)
+                    return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEvent, exceptionTargetObj)
                 }
             }
             catch (err) {
