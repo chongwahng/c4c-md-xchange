@@ -1,5 +1,5 @@
 const { errorHandler } = require('./lib/ErrorHandler')
-const { messagePayload } = require('./lib/UnknownEventMessage')
+const { messagePayload } = require('./lib/ExceptionMessage')
 
 // Data provider class source file location - mandatory to add here to handle new ClientLink events
 const { CorporateAccount } = require('./lib/CorporateAccount')
@@ -30,7 +30,7 @@ module.exports = async function (srv) {
             try {
                 let idx = dataProviders.findIndex((obj) => obj.eventType === `${eventObj['event-type']}`)
 
-                if (idx === -1) { // cannot find event handler, will just return unknown/exception target object
+                if (idx === -1) { // cannot find data provider to handle this event, will just return unknown/exception target object
                     return exceptionTargetObj
                 } else {
                     return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEvent, exceptionTargetObj)
