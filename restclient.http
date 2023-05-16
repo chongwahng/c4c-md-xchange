@@ -210,9 +210,67 @@ Content-Type: application/json
   "specversion": "1.0"
 }
 
-###
+### SalesData Event
 
 POST http://localhost:4004/restapi/EnrichData
 Content-Type: application/json
 
-{"specversion": "1.0", "type": "/sap.c4c/Account.Root.Updated", "source": "/XAF/sap.c4c/000000000740890287", "id": "01e95891-c12d-1eed-bae4-1dbb2cc2d656", "event-type": "Account.Root.Updated", "event-type-version": "v1", "event-id": "01e95891-c12d-1eed-bae4-1dbb2cc2d656", "event-time": "2023-05-05T08:43:26Z", "data": { "root-entity-id":"06454995F7A61EDDB0CC3A0E78E0AC1E", "entity-id":"06454995F7A61EDDB0CC3A0E78E0AC1E", "Changes": [ { "node":"Account", "nodeID":"06454995F7A61EDDB0CC3A0E78E0AC1E", "ParentNodeID":"", "Modification":"Updated", "ChangedBy":"DMOHAPATRA", "ChangedFields": [ { "Fieldname":"PartialSystemAdministrativeData/LastChangeDateTime", "New":"2023-05-05T08:43:26.9485110Z", "Old":"2023-04-18T10:03:29.6236610Z" } ] }, { "node":"Common", "nodeID":"06454995F7A61EDDB0CC3A0E78E10C1E", "ParentNodeID":"06454995F7A61EDDB0CC3A0E78E0AC1E", "Modification":"Updated", "ChangedBy":"DMOHAPATRA", "ChangedFields": [ { "Fieldname":"Parent Account Marketing", "New":"\"ABC\" Agnieszka Tyszka TEST1", "Old":"\"ABC\" Agnieszka Tyszka" } ] } ] }}
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/SalesData.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "bd40a79d-66fc-1eed-bcf9-68a0b82b1aa9",
+  "event-type": "SalesData.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "bd40a79d-66fc-1eed-bcf9-68a0b82b1aa9",
+  "event-time": "2023-05-16T09:23:06Z",
+  "data": {
+    "root-entity-id": "BD40A79D66FC1EEDBCF925CF13E5B060",
+    "entity-id": "BD40A79D66FC1EEDBCF925CF13E5B060",
+    "Changes": [
+      {
+        "node": "SalesData",
+        "nodeID": "BD40A79D66FC1EEDBCF925CF13E5B060",
+        "ParentNodeID": "",
+        "Modification": "Updated",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": [
+          {
+            "Fieldname": "PaymentMethod",
+            "New": "PM1",
+            "Old": ""
+          },
+          {
+            "Fieldname": "DeliveryMethod",
+            "New": "DM1",
+            "Old": ""
+          },
+          {
+            "Fieldname": "SystemAdministrativeData/LastChangeDateTime",
+            "New": "2023-05-16T09:23:06.1825310Z",
+            "Old": "2023-05-16T09:19:34.8091980Z"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+### Tax ID issue
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/Account.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "bd40a79d-66fc-1edd-bcf9-db035a03cc53",
+  "event-type": "Account.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "bd40a79d-66fc-1edd-bcf9-db035a03cc53",
+  "event-time": "2023-05-16T09:48:32Z",
+  "data": {
+    "root-entity-id": "BD40A79D66FC1EEDBCF9199C6AE2EE68",
+    "entity-id": "BD40A79D66FC1EEDBCF9199C6AE2EE68"
+  }
+}

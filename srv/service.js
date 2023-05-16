@@ -9,6 +9,8 @@ const { IndividualCustomer } = require('./lib/IndividualCustomer')
 const dataProviders = [
     { eventType: 'Account.Root.Created', targetEvent: 'Created', class: CorporateAccount },
     { eventType: 'Account.Root.Updated', targetEvent: 'Updated', class: CorporateAccount },
+    { eventType: 'SalesData.Root.Created', targetEvent: 'Created', class: CorporateAccount },
+    { eventType: 'SalesData.Root.Updated', targetEvent: 'Updated', class: CorporateAccount },
     { eventType: 'IndividualCustomer.Root.Created', targetEvent: 'Created', class: IndividualCustomer },
     { eventType: 'IndividualCustomer.Root.Updated', targetEvent: 'Updated', class: IndividualCustomer }
 ]
@@ -23,10 +25,10 @@ module.exports = async function (srv) {
     this.on('EnrichData', async (req) => {
         let eventObj = req.data
         let exceptionTargetObj = messagePayload.initialize()
-        
+
         if (eventObj) {
             exceptionTargetObj.EventTriggeredOn = eventObj['event-time']
-            exceptionTargetObj.EventSpecInfo.OriginalEventName = eventObj['event-type']    
+            exceptionTargetObj.EventSpecInfo.OriginalEventName = eventObj['event-type']
             try {
                 let idx = dataProviders.findIndex((obj) => obj.eventType === `${eventObj['event-type']}`)
 
@@ -46,7 +48,7 @@ module.exports = async function (srv) {
         if (req.data) {
             let eventObj = req.data
             console.log(eventObj)
-            return eventObj 
+            return eventObj
         }
     })
 }

@@ -5,11 +5,36 @@ const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core')
 
 class CorporateAccount {
     static async run(eventObj, destinationName, targetEvent, exceptionTargetObj) {
+        const placeHolder = '_'
+
+        let objectID = ''
+        let response = ''
+        let apiURL = ''
+
         let outboundMessagePayload = messagePayload.initialize()
 
         try {
             const destination = await getDestination(destinationName)
-            
+
+            // main event is not triggered for CorporateAccount as root, as such, needs to look backward for CorporateAccount object ID
+            if (eventObj['event-type'] === 'SalesData.Root.Updated' || eventObj['event-type'] === 'SalesData.Root.Created') {
+                apiURL =
+                    `/sap/c4c/odata/v1/c4codataapi/CorporateAccountSalesDataCollection?` +
+                    `&$filter=ObjectID eq '${eventObj.data['root-entity-id']}'` +
+                    `&$select=ParentObjectID`
+
+                response = await executeHttpRequest(
+                    destination,
+                    {
+                        method: 'get',
+                        url: apiURL
+                    }
+                )
+                if (response.data.d.results.length > 0) {
+                    objectID = response.data.d.results[0].ParentObjectID
+                }
+            } else objectID = eventObj.data['root-entity-id']
+
             const accountProperties =
                 `AccountID,` +
                 `RoleCode,` +
@@ -47,17 +72,17 @@ class CorporateAccount {
                 `CorporateAccountTaxNumber/CountryCode,` +
                 `CorporateAccountTaxNumber/TaxTypeCode`
 
-            let apiURL =
+            apiURL =
                 `/sap/c4c/odata/v1/c4codataapi/CorporateAccountCollection?` +
                 `$expand=` +
                 `CorporateAccountAddress,` +
                 `CorporateAccountSalesData,` +
                 `CorporateAccountTeam,` +
                 `CorporateAccountTaxNumber` +
-                `&$filter=ObjectID eq '${eventObj.data['root-entity-id']}'` +
+                `&$filter=ObjectID eq '${objectID}'` +
                 `&$select=${accountProperties},${addressProperties},${salesDataProperties},${teamProperties},${taxNumberProperties}`
 
-            let response = await executeHttpRequest(
+            response = await executeHttpRequest(
                 destination,
                 {
                     method: 'get',
@@ -111,8 +136,6 @@ class CorporateAccount {
 
                 outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
-                const placeHolder = '_'
-
                 if (accountCollection.CorporateAccountSalesData.length === 0) {
                     // no sales area data, just build generic topic string
                     outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/corporateaccount/v1/${placeHolder}/${placeHolder}/${placeHolder}/${placeHolder}`)
@@ -150,7 +173,7 @@ class CorporateAccount {
                 }
 
                 if (accountCollection.CorporateAccountTaxNumber.length === 1) {
-                    const taxNumberCollection = accountCollection.CorporateAccountTaxNumber
+                    const taxNumberCollection = accountCollection.CorporateAccountTaxNumber[0]
                     if (
                         (taxNumberCollection.TaxTypeCode === '2' && taxNumberCollection.CountryCode === 'FR') ||
                         (
@@ -194,7 +217,7 @@ class CorporateAccount {
                 }
             } else {
                 outboundMessagePayload = exceptionTargetObj
-            } 
+            }
 
             return outboundMessagePayload
         }
