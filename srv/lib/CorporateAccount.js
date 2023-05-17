@@ -16,7 +16,7 @@ class CorporateAccount {
         try {
             const destination = await getDestination(destinationName)
 
-            // main event is not triggered for CorporateAccount as root, as such, needs to look backward for CorporateAccount object ID
+            // main event is not triggered for CorporateAccount as root but instead it's SalesData, as such, needs to look backward for CorporateAccount object ID
             if (eventObj['event-type'] === 'SalesData.Root.Updated' || eventObj['event-type'] === 'SalesData.Root.Created') {
                 apiURL =
                     `/sap/c4c/odata/v1/c4codataapi/CorporateAccountSalesDataCollection?` +
@@ -30,9 +30,9 @@ class CorporateAccount {
                         url: apiURL
                     }
                 )
-                if (response.data.d.results.length > 0) {
-                    objectID = response.data.d.results[0].ParentObjectID
-                }
+
+                objectID = response.data.d.results[0].ParentObjectID
+
             } else objectID = eventObj.data['root-entity-id']
 
             const accountProperties =
