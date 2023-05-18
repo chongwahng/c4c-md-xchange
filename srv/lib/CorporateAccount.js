@@ -106,25 +106,22 @@ class CorporateAccount {
                 outboundMessagePayload.Entity.ClientGroup = accountCollection.ParentAccountID
                 outboundMessagePayload.Entity.RequestChorus = accountCollection.RequestChorus_KUT
 
-                if (accountCollection.CorporateAccountAddress.length === 1) {
-                    const addressCollection = accountCollection.CorporateAccountAddress[0]
-
-                    if (addressCollection.BillTo) {
-                        outboundMessagePayload.Entity.InvoicingHouseNumber = addressCollection.HouseNumber
-                        outboundMessagePayload.Entity.InvoicingAddress1 = addressCollection.Street
-                        outboundMessagePayload.Entity.InvoicingAddress2 = addressCollection.AddressLine2
-                        outboundMessagePayload.Entity.InvoicingPostalCode = addressCollection.StreetPostalCode
-                        outboundMessagePayload.Entity.InvoicingCity = addressCollection.City
-                        outboundMessagePayload.Entity.InvoicingCountry = addressCollection.CountryCode
+                for (let address of accountCollection.CorporateAccountAddress.entries()) {
+                    if (address[1].BillTo) {
+                        outboundMessagePayload.Entity.InvoicingHouseNumber = address[1].HouseNumber
+                        outboundMessagePayload.Entity.InvoicingAddress1 = address[1].Street
+                        outboundMessagePayload.Entity.InvoicingAddress2 = address[1].AddressLine2
+                        outboundMessagePayload.Entity.InvoicingPostalCode = address[1].StreetPostalCode
+                        outboundMessagePayload.Entity.InvoicingCity = address[1].City
+                        outboundMessagePayload.Entity.InvoicingCountry = address[1].CountryCode
                     }
-
-                    if (addressCollection.ShipTo) {
-                        outboundMessagePayload.Entity.DeliveryHouseNumber = addressCollection.HouseNumber
-                        outboundMessagePayload.Entity.DeliveryAddress1 = addressCollection.Street
-                        outboundMessagePayload.Entity.DeliveryAddress2 = addressCollection.AddressLine2
-                        outboundMessagePayload.Entity.DeliveryPostalCode = addressCollection.StreetPostalCode
-                        outboundMessagePayload.Entity.DeliveryCity = addressCollection.City
-                        outboundMessagePayload.Entity.DeliveryCountry = addressCollection.CountryCode
+                    if (address[1].ShipTo) {
+                        outboundMessagePayload.Entity.DeliveryHouseNumber = address[1].HouseNumber
+                        outboundMessagePayload.Entity.DeliveryAddress1 = address[1].Street
+                        outboundMessagePayload.Entity.DeliveryAddress2 = address[1].AddressLine2
+                        outboundMessagePayload.Entity.DeliveryPostalCode = address[1].StreetPostalCode
+                        outboundMessagePayload.Entity.DeliveryCity = address[1].City
+                        outboundMessagePayload.Entity.DeliveryCountry = address[1].CountryCode
                     }
                 }
 
