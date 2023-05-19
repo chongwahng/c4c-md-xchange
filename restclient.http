@@ -293,3 +293,22 @@ Content-Type: application/json
     "entity-id": "BD40A79D66FC1EEDBCF9199C6AE2EE68"
   }
 }
+
+### SalesRepCode issue
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/Account.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
+  "event-type": "Account.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
+  "event-time": "2023-05-18T09:06:26Z",
+  "data": {
+    "root-entity-id": "0206B26232001EDDB6A09AF5EDD714F9",
+    "entity-id": "0206B26232001EDDB6A09AF5EDD714F9"
+  }
+}

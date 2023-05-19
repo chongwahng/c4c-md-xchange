@@ -125,11 +125,27 @@ class CorporateAccount {
                     }
                 }
 
+                // SalesRepCode determination logic
+                // MainIndicator == true && PartyRoleCode == 142 ==> use it, if == null then ==> first obj. with PartyRoleCode == 142
+                let empID1stPriority
+                let empID2ndPriority
+
                 for (let team of accountCollection.CorporateAccountTeam.entries()) {
-                    if ((team[1].MainIndcator === true && team[1].PartyRoleCode === '142') || team[1].PartyRoleCode === '142') {
-                        outboundMessagePayload.Entity.SalesRepCode = team[1].EmployeeID
+                    if (!empID1stPriority && team[1].MainIndicator === true && team[1].PartyRoleCode === '142') {
+                        empID1stPriority = team[1].EmployeeID
+                        break
+                    }
+                    else if (team[1].PartyRoleCode === '142' && !empID2ndPriority) {
+                        empID2ndPriority = team[1].EmployeeID
                     }
                 }
+
+                if (empID1stPriority) {
+                    outboundMessagePayload.Entity.SalesRepCode = empID1stPriority
+                } else if (empID2ndPriority) {
+                    outboundMessagePayload.Entity.SalesRepCode = empID2ndPriority
+                }
+                
 
                 outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
