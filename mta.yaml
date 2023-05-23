@@ -26,6 +26,9 @@ modules:
     requires:
       - name: c4c-md-xchange-auth
       - name: c4c-md-xchange-dest
+      - name: c4c-md-xchange-scaler
+        parameters:
+          path: ./autoscaler-policy.json      
 resources:
   - name: c4c-md-xchange-auth
     type: org.cloudfoundry.managed-service
@@ -43,3 +46,5 @@ resources:
       service: destination
       service-name: c4c-md-xchange-dest
       service-plan: lite
+  - name: c4c-md-xchange-scaler
+    type: org.cloudfoundry.existing-service
