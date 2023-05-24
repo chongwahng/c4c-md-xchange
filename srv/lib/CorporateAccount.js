@@ -16,7 +16,7 @@ class CorporateAccount {
         try {
             const destination = await getDestination(destinationName)
 
-            // main event is not triggered for CorporateAccount as root but instead it's SalesData, as such, needs to look backward for CorporateAccount object ID
+            // when main event is not triggered for CorporateAccount as root but instead it's SalesData, we need to look backward for CorporateAccount object ID
             if (eventObj['event-type'] === 'SalesData.Root.Updated' || eventObj['event-type'] === 'SalesData.Root.Created') {
                 apiURL =
                     `/sap/c4c/odata/v1/c4codataapi/CorporateAccountSalesDataCollection?` +
@@ -126,14 +126,15 @@ class CorporateAccount {
                 }
 
                 // SalesRepCode determination logic
-                // MainIndicator == true && PartyRoleCode == 142 ==> use it, if == null then ==> first obj. with PartyRoleCode == 142
+                // 1st rule: MainIndicator == true && PartyRoleCode == 142 ==> use it
+                // 2nd rule: if == null then ==> first obj. with PartyRoleCode == 142
                 let empID1stPriority
                 let empID2ndPriority
 
                 for (let team of accountCollection.CorporateAccountTeam.entries()) {
                     if (!empID1stPriority && team[1].MainIndicator === true && team[1].PartyRoleCode === '142') {
                         empID1stPriority = team[1].EmployeeID
-                        break
+                        break  // 1st rule met, stop looking
                     }
                     else if (team[1].PartyRoleCode === '142' && !empID2ndPriority) {
                         empID2ndPriority = team[1].EmployeeID
@@ -145,7 +146,7 @@ class CorporateAccount {
                 } else if (empID2ndPriority) {
                     outboundMessagePayload.Entity.SalesRepCode = empID2ndPriority
                 }
-                
+
 
                 outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
@@ -185,20 +186,20 @@ class CorporateAccount {
                     }
                 }
 
-                if (accountCollection.CorporateAccountTaxNumber.length === 1) {
-                    const taxNumberCollection = accountCollection.CorporateAccountTaxNumber[0]
+                for (let taxNumberCollection of accountCollection.CorporateAccountTaxNumber.entries()) {
                     if (
-                        (taxNumberCollection.TaxTypeCode === '2' && taxNumberCollection.CountryCode === 'FR') ||
+                        (taxNumberCollection[1].TaxTypeCode === '2' && taxNumberCollection[1].CountryCode === 'FR') ||
                         (
-                            taxNumberCollection.TaxTypeCode === '3' &&
+                            taxNumberCollection[1].TaxTypeCode === '3' &&
                             (
-                                taxNumberCollection.CountryCode === 'NL' || taxNumberCollection.CountryCode === 'CZ' ||
-                                taxNumberCollection.CountryCode === 'SK' || taxNumberCollection.CountryCode === 'GB'
+                                taxNumberCollection[1].CountryCode === 'NL' || taxNumberCollection[1].CountryCode === 'CZ' ||
+                                taxNumberCollection[1].CountryCode === 'SK' || taxNumberCollection[1].CountryCode === 'GB'
                             )
                         )
                     ) {
-                        outboundMessagePayload.Entity.TaxId = taxNumberCollection.TaxID
-                        outboundMessagePayload.Entity.CompanyID = taxNumberCollection.TaxID
+                        outboundMessagePayload.Entity.TaxId = taxNumberCollection[1].TaxID
+                        outboundMessagePayload.Entity.CompanyID = taxNumberCollection[1].TaxID
+                        break   // stop looking when found the 1st suitable TaxID
                     }
                 }
 
