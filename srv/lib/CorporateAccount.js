@@ -4,7 +4,7 @@ const { messagePayload } = require('./CorporateAccountMessage')
 const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core')
 
 class CorporateAccount {
-    static async run(eventObj, destinationName, targetEvent, exceptionTargetObj) {
+    static async run(eventObj, destinationName, targetEventType, targetEventName, exceptionTargetObj) {
         const placeHolder = '_'
 
         let objectID = ''
@@ -93,8 +93,8 @@ class CorporateAccount {
             if (response.data.d.results.length > 0) {
                 const accountCollection = response.data.d.results[0]
 
-                outboundMessagePayload.EventName = 'CorporateAccount'
-                outboundMessagePayload.EventType = targetEvent
+                outboundMessagePayload.EventName = targetEventName
+                outboundMessagePayload.EventType = targetEventType
                 outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
 
                 outboundMessagePayload.Entity.AccountId = accountCollection.AccountID
@@ -170,7 +170,8 @@ class CorporateAccount {
                         let divisionCode = (salesData[1].DivisionCode === '') ? placeHolder : salesData[1].DivisionCode
 
                         if (
-                            (salesOrganisationID === 'NLDN' && distributionChannelCode === '01' && divisionCode === 'TR')
+                            (salesOrganisationID === 'NLDN' && distributionChannelCode === '01' && divisionCode === 'TR') ||
+                            (salesOrganisationID === 'G3TR' && distributionChannelCode === '01' && divisionCode === 'TR')
                             || (salesOrganisationID === 'AC-FR-SALES-CSG')
                             || (salesOrganisationID === 'TAC')
                             || (salesOrganisationID === 'TAS')
@@ -192,8 +193,11 @@ class CorporateAccount {
                         (
                             taxNumberCollection[1].TaxTypeCode === '3' &&
                             (
-                                taxNumberCollection[1].CountryCode === 'NL' || taxNumberCollection[1].CountryCode === 'CZ' ||
-                                taxNumberCollection[1].CountryCode === 'SK' || taxNumberCollection[1].CountryCode === 'GB'
+                                taxNumberCollection[1].CountryCode === 'NL' || 
+                                taxNumberCollection[1].CountryCode === 'CZ' ||
+                                taxNumberCollection[1].CountryCode === 'SK' || 
+                                taxNumberCollection[1].CountryCode === 'GB' ||
+                                taxNumberCollection[1].CountryCode === 'UK' 
                             )
                         )
                     ) {

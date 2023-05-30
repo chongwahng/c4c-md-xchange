@@ -3,16 +3,16 @@ const { messagePayload } = require('./lib/ExceptionMessage')
 
 // Data provider class source file location - mandatory to add here to handle new ClientLink events
 const { CorporateAccount } = require('./lib/CorporateAccount')
-const { IndividualCustomer } = require('./lib/IndividualCustomer')
+const { Contact } = require('./lib/Contact')
 
 // Data provider class event type mapping table - mandatory to add here to handle new ClientLink events
 const dataProviders = [
-    { eventType: 'Account.Root.Created', targetEvent: 'Created', class: CorporateAccount },
-    { eventType: 'Account.Root.Updated', targetEvent: 'Updated', class: CorporateAccount },
-    { eventType: 'SalesData.Root.Created', targetEvent: 'Created', class: CorporateAccount },
-    { eventType: 'SalesData.Root.Updated', targetEvent: 'Updated', class: CorporateAccount },
-    { eventType: 'IndividualCustomer.Root.Created', targetEvent: 'Created', class: IndividualCustomer },
-    { eventType: 'IndividualCustomer.Root.Updated', targetEvent: 'Updated', class: IndividualCustomer }
+    { eventType: 'Account.Root.Created', targetEventType: 'Created', targetEventName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'Account.Root.Updated', targetEventType: 'Updated', targetEventName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'SalesData.Root.Created', targetEventType: 'Created', targetEventName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'SalesData.Root.Updated', targetEventType: 'Updated', targetEventName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'Contact.Root.Created', targetEventType: 'Created', targetEventName: 'ContactCollection', class: Contact },
+    { eventType: 'Contact.Root.Updated', targetEventType: 'Updated', targetEventName: 'ContactCollection', class: Contact }
 ]
 
 module.exports = async function (srv) {
@@ -35,7 +35,7 @@ module.exports = async function (srv) {
                 if (idx === -1) { // cannot find data provider to handle this event, will just return unknown/exception target object
                     return exceptionTargetObj
                 } else {
-                    return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEvent, exceptionTargetObj)
+                    return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEventType, dataProviders[idx].targetEventName, exceptionTargetObj)
                 }
             }
             catch (err) {

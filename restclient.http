@@ -312,3 +312,43 @@ Content-Type: application/json
     "entity-id": "0206B26232001EDDB6A09AF5EDD714F9"
   }
 }
+
+### UK Sales Org.
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/Account.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
+  "event-type": "Account.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
+  "event-time": "2023-05-18T09:06:26Z",
+  "data": {
+    "root-entity-id": "00163EAE10341EEB87B6B54673DA948C",
+    "entity-id": "00163EAE10341EEB87B6B54673DA948C"
+  }
+}
+
+### Contact + relationships
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/Contact.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
+  "event-type": "Contact.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
+  "event-time": "2023-05-18T09:06:26Z",
+  "data": {
+    "root-entity-id": "00163E7A9C501ED9A0A9D7D323D6DFDF",
+    "entity-id": "00163E7A9C501ED9A0A9D7D323D6DFDF"
+  }
+}
+
+
