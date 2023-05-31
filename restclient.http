@@ -313,23 +313,68 @@ Content-Type: application/json
   }
 }
 
-### UK Sales Org.
+### UK Sales Org. - Test 01
 POST http://localhost:4004/restapi/EnrichData
 Content-Type: application/json
 
 {
   "specversion": "1.0",
-  "type": "/sap.c4c/Account.Root.Updated",
+  "type": "/sap.c4c/SalesData.Root.Created",
   "source": "/XAF/sap.c4c/000000000740890287",
-  "id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
-  "event-type": "Account.Root.Updated",
+  "id": "8bd07b3f-b002-1edd-bfda-7ffd39beba3a",
+  "event-type": "SalesData.Root.Created",
   "event-type-version": "v1",
-  "event-id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
-  "event-time": "2023-05-18T09:06:26Z",
+  "event-id": "8bd07b3f-b002-1edd-bfda-7ffd39beba3a",
+  "event-time": "2023-05-30T10:23:01Z",
   "data": {
-    "root-entity-id": "00163EAE10341EEB87B6B54673DA948C",
-    "entity-id": "00163EAE10341EEB87B6B54673DA948C"
+    "root-entity-id": "8BD07B3FB0021EDDBFDA70EBDD4C7801",
+    "entity-id": "8BD07B3FB0021EDDBFDA70EBDD4C7801",
+    "Changes": [
+      {
+        "node": "Sales Data",
+        "nodeID": "8BD07B3FB0021EDDBFDA70EBDD4C7801",
+        "ParentNodeID": "",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "DeliveryTerms",
+        "nodeID": "8BD07B3FB0021EDDBFDA70EBDD4C7801",
+        "ParentNodeID": "8BD07B3FB0021EDDBFDA70EBDD4C7801",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "PricingTerms",
+        "nodeID": "8BD07B3FB0021EDDBFDA70EBDD4C7801",
+        "ParentNodeID": "8BD07B3FB0021EDDBFDA70EBDD4C7801",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      }
+    ]
   }
+}
+
+### UK Sales Org. - Test 02
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+    "specversion": "1.0",
+    "type": "/sap.c4c/Account.Root.Updated",
+    "source": "/XAF/sap.c4c/000000000740890287",
+    "id": "8bd07b3f-b002-1edd-bfda-7ffd39beda3a",
+    "event-type": "Account.Root.Updated",
+    "event-type-version": "v1",
+    "event-id": "8bd07b3f-b002-1edd-bfda-7ffd39beda3a",
+    "event-time": "2023-05-30T10:23:01Z",
+    "data": {
+        "root-entity-id": "00163E7A9E771EE990FC67FDC1790AFA",
+        "entity-id": "00163E7A9E771EE990FC67FDC1790AFA"
+    }
 }
 
 ### Contact + relationships
