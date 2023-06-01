@@ -147,7 +147,6 @@ class CorporateAccount {
                     outboundMessagePayload.Entity.SalesRepCode = empID2ndPriority
                 }
 
-
                 outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
                 if (accountCollection.CorporateAccountSalesData.length === 0) {

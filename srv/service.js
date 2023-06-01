@@ -12,7 +12,10 @@ const dataProviders = [
     { eventType: 'SalesData.Root.Created', targetEventType: 'Created', targetEventName: 'CorporateAccount', class: CorporateAccount },
     { eventType: 'SalesData.Root.Updated', targetEventType: 'Updated', targetEventName: 'CorporateAccount', class: CorporateAccount },
     { eventType: 'Contact.Root.Created', targetEventType: 'Created', targetEventName: 'ContactCollection', class: Contact },
-    { eventType: 'Contact.Root.Updated', targetEventType: 'Updated', targetEventName: 'ContactCollection', class: Contact }
+    { eventType: 'Contact.Root.Updated', targetEventType: 'Updated', targetEventName: 'ContactCollection', class: Contact },
+    { eventType: 'BusinessPartnerRelationship.Root.Created', targetEventType: 'Created', targetEventName: 'BusinessPartnerRelationshipCollection', class: Contact },
+    { eventType: 'BusinessPartnerRelationship.Root.Updated', targetEventType: 'Updated', targetEventName: 'BusinessPartnerRelationshipCollection', class: Contact },
+    { eventType: 'BusinessPartnerRelationship.Root.Deleted', targetEventType: 'Deleted', targetEventName: 'BusinessPartnerRelationshipCollection', class: Contact }        
 ]
 
 module.exports = async function (srv) {

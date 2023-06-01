@@ -19,6 +19,8 @@ class messagePayload {
                 Status: '',
                 MaximumOrderAmount: '',
                 MaximumOrderAmountCurrencyCode: '',
+                CountryCode: '',
+                BusinessPartnerRelationshipDeletion: '',
                 ApproveOrderFor: [],
                 ListOfAccount: []
             }

@@ -377,23 +377,212 @@ Content-Type: application/json
     }
 }
 
-### Contact + relationships
+### Contact.Root.Created
 POST http://localhost:4004/restapi/EnrichData
 Content-Type: application/json
 
 {
-  "specversion": "1.0",
-  "type": "/sap.c4c/Contact.Root.Updated",
-  "source": "/XAF/sap.c4c/000000000740890287",
-  "id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
-  "event-type": "Contact.Root.Updated",
-  "event-type-version": "v1",
-  "event-id": "bd40a79d-66fc-1eed-bdab-6944d3096283",
-  "event-time": "2023-05-18T09:06:26Z",
-  "data": {
-    "root-entity-id": "00163E7A9C501ED9A0A9D7D323D6DFDF",
-    "entity-id": "00163E7A9C501ED9A0A9D7D323D6DFDF"
-  }
+    "specversion": "1.0",
+    "type": "/sap.c4c/Contact.Root.Created",
+    "source": "/XAF/sap.c4c/000000000740890287",
+    "id": "8bd07b3f-b002-1edd-bfd8-4300967bfaab",
+    "event-type": "Contact.Root.Created",
+    "event-type-version": "v1",
+    "event-id": "8bd07b3f-b002-1edd-bfd8-4300967bfaab",
+    "event-time": "2023-05-30T08:14:56Z",
+    "data": {
+        "root-entity-id": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+        "entity-id": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+        "Changes": [
+            {
+                "node": "Contact",
+                "nodeID": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+                "ParentNodeID": "",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "Common",
+                "nodeID": "8BD07B3FB0021EDDBFD83DD2039E98D0",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "Name",
+                "nodeID": "8BD07B3FB0021EDDBFD83DD2039F18D0",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DD2039E98D0",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "Role",
+                "nodeID": "8BD07B3FB0021EDDBFD83DD203A038D0",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            }
+        ]
+    }
 }
 
+### Conctac.Root.Updated
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
 
+{
+    "specversion": "1.0",
+    "type": "/sap.c4c/Contact.Root.Updated",
+    "source": "/XAF/sap.c4c/000000000740890287",
+    "id": "8bd07b3f-b002-1edd-bfd8-b31e6477233d",
+    "event-type": "Contact.Root.Updated",
+    "event-type-version": "v1",
+    "event-id": "8bd07b3f-b002-1edd-bfd8-b31e6477233d",
+    "event-time": "2023-05-30T08:40:07Z",
+    "data": {
+        "root-entity-id": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+        "entity-id": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+        "Changes": [
+            {
+                "node": "Contact",
+                "nodeID": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+                "ParentNodeID": "",
+                "Modification": "Updated",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": [
+                    {
+                        "Fieldname": "PartialSystemAdministrativeData/LastChangeDateTime",
+                        "New": "2023-05-30T08:40:07.5669080Z",
+                        "Old": "2023-05-30T08:14:56.3923020Z"
+                    }
+                ]
+            },
+            {
+                "node": "Common",
+                "nodeID": "8BD07B3FB0021EDDBFD83DD2039E98D0",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DD2039E38D0",
+                "Modification": "Updated",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": [
+                    {
+                        "Fieldname": "Maximum Order Amount",
+                        "New": "EUR",
+                        "Old": ""
+                    },
+                    {
+                        "Fieldname": "Maximum Order Amount",
+                        "New": "100.000000 ",
+                        "Old": "0.000000 "
+                    },
+                    {
+                        "Fieldname": "Ecommerce Enabled and Role",
+                        "New": "131",
+                        "Old": ""
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+### BusinessPartnerRelationship.Root.Created
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+    "specversion": "1.0",
+    "type": "/sap.c4c/BusinessPartnerRelationship.Root.Created",
+    "source": "/XAF/sap.c4c/000000000740890287",
+    "id": "8bd07b3f-b002-1edd-bfd8-4317c54dbab0",
+    "event-type": "BusinessPartnerRelationship.Root.Created",
+    "event-type-version": "v1",
+    "event-id": "8bd07b3f-b002-1edd-bfd8-4317c54dbab0",
+    "event-time": "2023-05-30T08:14:56Z",
+    "data": {
+        "root-entity-id": "8BD07B3FB0021EDDBFD83DDE16CFB8DB",
+        "entity-id": "8BD07B3FB0021EDDBFD83DDE16CFB8DB",
+        "Changes": [
+            {
+                "node": "Business Partner Relationship",
+                "nodeID": "8BD07B3FB0021EDDBFD83DDE16CFB8DB",
+                "ParentNodeID": "",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "ContactPerson",
+                "nodeID": "8BD07B3FB0021EDDBFD83DDE16D018DB",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DDE16CFB8DB",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "ContactPersonWorkplaceAddressInformation",
+                "nodeID": "8BD07B3FB0021EDDBFD83DDE16D118DB",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DDE16D018DB",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "ContactPersonWorkplaceAddress.EMAIL",
+                "nodeID": "8BD07B3FB0021EDDBFD84137524B59DF",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DDE16D118DB",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "ContactPersonWorkplaceAddress.ROOT",
+                "nodeID": "8BD07B3FB0021EDDBFD83DDE16D118DB",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DDE16D118DB",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            },
+            {
+                "node": "ContactPersonWorkplaceAddress.TELEPHONE",
+                "nodeID": "8BD07B3FB0021EDDBFD84137524B79DF",
+                "ParentNodeID": "8BD07B3FB0021EDDBFD83DDE16D118DB",
+                "Modification": "Created",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            }
+        ]
+    }
+}
+
+### BusinessPartnerRelationship.Root.Deleted
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+    "specversion": "1.0",
+    "type": "/sap.c4c/BusinessPartnerRelationship.Root.Deleted",
+    "source": "/XAF/sap.c4c/000000000740890287",
+    "id": "8bd07b3f-b002-1edd-bff3-75ce3ca9c983",
+    "event-type": "BusinessPartnerRelationship.Root.Deleted",
+    "event-type-version": "v1",
+    "event-id": "8bd07b3f-b002-1edd-bff3-75ce3ca9c983",
+    "event-time": "2023-05-31T10:12:40Z",
+    "data": {
+        "root-entity-id": "8BD07B3FB0021EDDBFD8F232918213ED",
+        "entity-id": "8BD07B3FB0021EDDBFD8F232918213ED",
+        "Changes": [
+            {
+                "node": "Business Partner Relationship",
+                "nodeID": "8BD07B3FB0021EDDBFD8F232918213ED",
+                "ParentNodeID": "",
+                "Modification": "Deleted",
+                "ChangedBy": "DMOHAPATRA",
+                "ChangedFields": []
+            }
+        ]
+    }
+}
