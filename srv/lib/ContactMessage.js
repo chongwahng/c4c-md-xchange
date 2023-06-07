@@ -3,6 +3,7 @@ class messagePayload {
         let outboundMessagePayload = {
             EventName: '',
             EventType: '',
+            ObjectName: '',
             EventTriggeredOn: '',
             EventSpecInfo: {
                 TopicStrings: [],

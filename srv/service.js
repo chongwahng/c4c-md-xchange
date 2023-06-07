@@ -7,15 +7,15 @@ const { Contact } = require('./lib/Contact')
 
 // Data provider class event type mapping table - mandatory to add here to handle new ClientLink events
 const dataProviders = [
-    { eventType: 'Account.Root.Created', targetEventType: 'Created', targetEventName: 'CorporateAccount', class: CorporateAccount },
-    { eventType: 'Account.Root.Updated', targetEventType: 'Updated', targetEventName: 'CorporateAccount', class: CorporateAccount },
-    { eventType: 'SalesData.Root.Created', targetEventType: 'Created', targetEventName: 'CorporateAccount', class: CorporateAccount },
-    { eventType: 'SalesData.Root.Updated', targetEventType: 'Updated', targetEventName: 'CorporateAccount', class: CorporateAccount },
-    { eventType: 'Contact.Root.Created', targetEventType: 'Created', targetEventName: 'ContactCollection', class: Contact },
-    { eventType: 'Contact.Root.Updated', targetEventType: 'Updated', targetEventName: 'ContactCollection', class: Contact },
-    { eventType: 'BusinessPartnerRelationship.Root.Created', targetEventType: 'Created', targetEventName: 'BusinessPartnerRelationshipCollection', class: Contact },
-    { eventType: 'BusinessPartnerRelationship.Root.Updated', targetEventType: 'Updated', targetEventName: 'BusinessPartnerRelationshipCollection', class: Contact },
-    { eventType: 'BusinessPartnerRelationship.Root.Deleted', targetEventType: 'Deleted', targetEventName: 'BusinessPartnerRelationshipCollection', class: Contact }        
+    { eventType: 'Account.Root.Created', targetEventType: 'Created', targetEventName: 'Account.Root', targetObjectName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'Account.Root.Updated', targetEventType: 'Updated', targetEventName: 'Account.Root', targetObjectName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'SalesData.Root.Created', targetEventType: 'Created', targetEventName: 'SalesData.Root', targetObjectName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'SalesData.Root.Updated', targetEventType: 'Updated', targetEventName: 'SalesData.Root', targetObjectName: 'CorporateAccount', class: CorporateAccount },
+    { eventType: 'Contact.Root.Created', targetEventType: 'Created', targetEventName: 'Contact.Root', targetObjectName: 'Contact', class: Contact },
+    { eventType: 'Contact.Root.Updated', targetEventType: 'Updated', targetEventName: 'Contact.Root', targetObjectName: 'Contact', class: Contact },
+    { eventType: 'BusinessPartnerRelationship.Root.Created', targetEventType: 'Created', targetEventName: 'BusinessPartnerRelationship.Root', targetObjectName: 'Contact', class: Contact },
+    { eventType: 'BusinessPartnerRelationship.Root.Updated', targetEventType: 'Updated', targetEventName: 'BusinessPartnerRelationship.Root', targetObjectName: 'Contact', class: Contact },
+    { eventType: 'BusinessPartnerRelationship.Root.Deleted', targetEventType: 'Deleted', targetEventName: 'BusinessPartnerRelationship.Root', targetObjectName: 'Contact', class: Contact }
 ]
 
 module.exports = async function (srv) {
@@ -38,7 +38,14 @@ module.exports = async function (srv) {
                 if (idx === -1) { // cannot find data provider to handle this event, will just return unknown/exception target object
                     return exceptionTargetObj
                 } else {
-                    return await dataProviders[idx].class.run(eventObj, destinationName, dataProviders[idx].targetEventType, dataProviders[idx].targetEventName, exceptionTargetObj)
+                    return await dataProviders[idx].class.run(
+                        eventObj,
+                        destinationName,
+                        dataProviders[idx].targetEventType,
+                        dataProviders[idx].targetEventName,
+                        dataProviders[idx].targetObjectName,
+                        exceptionTargetObj
+                    )
                 }
             }
             catch (err) {

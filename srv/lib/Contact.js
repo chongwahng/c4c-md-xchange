@@ -4,13 +4,10 @@ const { messagePayload } = require('./ContactMessage')
 const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core')
 
 class Contact {
-    static async run(eventObj, destinationName, targetEventType, targetEventName, exceptionTargetObj) {
-        const placeHolder = '_'
-
+    static async run(eventObj, destinationName, targetEventType, targetEventName, targetObjectName, exceptionTargetObj) {
         let contactFilter = ''
         let response = ''
         let apiURL = ''
-        let topic = ''
 
         let outboundMessagePayload = messagePayload.initialize()
 
@@ -18,15 +15,13 @@ class Contact {
         if (eventObj['event-type'] === 'BusinessPartnerRelationship.Root.Deleted') {
             outboundMessagePayload.EventName = targetEventName
             outboundMessagePayload.EventType = targetEventType
+            outboundMessagePayload.ObjectName = targetObjectName
             outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
             outboundMessagePayload.Entity.BusinessPartnerRelationshipDeletion = eventObj.data['root-entity-id']
             outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
-            topic = `sg/contact/v1`
-            outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
-
-            topic = `ppginc/contact/v1`
-            outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
+            outboundMessagePayload.EventSpecInfo.TopicStrings.push(`sg/corporatecontact/v1`)
+            outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/corporatecontact/v1`)
 
             return outboundMessagePayload
         } else {
@@ -88,9 +83,8 @@ class Contact {
                     const contactCollection = response.data.d.results[0]
 
                     // topic determination logic goes here
-                    topic = `ppginc/contact/v1`
                     outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
-                    outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
+                    outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/corporatecontact/v1`)
 
                     if (
                         (
@@ -105,12 +99,12 @@ class Contact {
                             contactCollection.BusinessAddressCountryCode === 'SK' ||
                             contactCollection.BusinessAddressCountryCode === 'GB')
                     ) {
-                        topic = `sg/contact/v1`
-                        outboundMessagePayload.EventSpecInfo.TopicStrings.push(topic)
+                        outboundMessagePayload.EventSpecInfo.TopicStrings.push(`sg/corporatecontact/v1`)
                     }
 
                     outboundMessagePayload.EventName = targetEventName
                     outboundMessagePayload.EventType = targetEventType
+                    outboundMessagePayload.ObjectName = targetObjectName
                     outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
 
                     outboundMessagePayload.Entity.AccountId = contactCollection.AccountID

@@ -4,7 +4,7 @@ const { messagePayload } = require('./CorporateAccountMessage')
 const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core')
 
 class CorporateAccount {
-    static async run(eventObj, destinationName, targetEventType, targetEventName, exceptionTargetObj) {
+    static async run(eventObj, destinationName, targetEventType, targetEventName, targetObjectName, exceptionTargetObj) {
         const placeHolder = '_'
 
         let objectID = ''
@@ -95,6 +95,7 @@ class CorporateAccount {
 
                 outboundMessagePayload.EventName = targetEventName
                 outboundMessagePayload.EventType = targetEventType
+                outboundMessagePayload.ObjectName = targetObjectName
                 outboundMessagePayload.EventTriggeredOn = eventObj['event-time']
 
                 outboundMessagePayload.Entity.AccountId = accountCollection.AccountID
