@@ -586,3 +586,48 @@ Content-Type: application/json
         ]
     }
 }
+
+### Individual Customer - Sales.Data event
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/SalesData.Root.Created",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "8bd07b3f-b002-1ede-81a2-0ef3a0584128",
+  "event-type": "SalesData.Root.Created",
+  "event-type-version": "v1",
+  "event-id": "8bd07b3f-b002-1ede-81a2-0ef3a0584128",
+  "event-time": "2023-06-07T08:51:15Z",
+  "data": {
+    "root-entity-id": "8BD07B3FB0021EDE81A20CCE03BB2114",
+    "entity-id": "8BD07B3FB0021EDE81A20CCE03BB2114",
+    "Changes": [
+      {
+        "node": "Sales Data",
+        "nodeID": "8BD07B3FB0021EDE81A20CCE03BB2114",
+        "ParentNodeID": "",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "DeliveryTerms",
+        "nodeID": "8BD07B3FB0021EDE81A20CCE03BB2114",
+        "ParentNodeID": "8BD07B3FB0021EDE81A20CCE03BB2114",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "PricingTerms",
+        "nodeID": "8BD07B3FB0021EDE81A20CCE03BB2114",
+        "ParentNodeID": "8BD07B3FB0021EDE81A20CCE03BB2114",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      }
+    ]
+  }
+}

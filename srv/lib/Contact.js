@@ -5,6 +5,7 @@ const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core')
 
 class Contact {
     static async run(eventObj, destinationName, targetEventType, targetEventName, targetObjectName, exceptionTargetObj) {
+        const placeHolder = '_'
         let contactFilter = ''
         let response = ''
         let apiURL = ''
@@ -20,8 +21,8 @@ class Contact {
             outboundMessagePayload.Entity.BusinessPartnerRelationshipDeletion = eventObj.data['root-entity-id']
             outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
 
-            outboundMessagePayload.EventSpecInfo.TopicStrings.push(`sg/corporatecontact/v1`)
-            outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/corporatecontact/v1`)
+            outboundMessagePayload.EventSpecInfo.TopicStrings.push(`sg/contact/v1/${placeHolder}`)
+            outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/contact/v1/${placeHolder}`)
 
             return outboundMessagePayload
         } else {
@@ -83,8 +84,10 @@ class Contact {
                     const contactCollection = response.data.d.results[0]
 
                     // topic determination logic goes here
+                    let countryCode = (contactCollection.BusinessAddressCountryCode === '') ? placeHolder : contactCollection.BusinessAddressCountryCode
+
                     outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
-                    outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/corporatecontact/v1`)
+                    outboundMessagePayload.EventSpecInfo.TopicStrings.push(`ppginc/contact/v1/${countryCode}`)
 
                     if (
                         (
@@ -99,7 +102,7 @@ class Contact {
                             contactCollection.BusinessAddressCountryCode === 'SK' ||
                             contactCollection.BusinessAddressCountryCode === 'GB')
                     ) {
-                        outboundMessagePayload.EventSpecInfo.TopicStrings.push(`sg/corporatecontact/v1`)
+                        outboundMessagePayload.EventSpecInfo.TopicStrings.push(`sg/contact/v1/${countryCode}`)
                     }
 
                     outboundMessagePayload.EventName = targetEventName

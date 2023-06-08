@@ -7,7 +7,6 @@ class CorporateAccount {
     static async run(eventObj, destinationName, targetEventType, targetEventName, targetObjectName, exceptionTargetObj) {
         const placeHolder = '_'
 
-        let objectID = ''
         let response = ''
         let apiURL = ''
 
@@ -15,25 +14,6 @@ class CorporateAccount {
 
         try {
             const destination = await getDestination(destinationName)
-
-            // when main event is not triggered for CorporateAccount as root but instead it's SalesData, we need to look backward for CorporateAccount object ID
-            if (eventObj['event-type'] === 'SalesData.Root.Updated' || eventObj['event-type'] === 'SalesData.Root.Created') {
-                apiURL =
-                    `/sap/c4c/odata/v1/c4codataapi/CorporateAccountSalesDataCollection?` +
-                    `&$filter=ObjectID eq '${eventObj.data['root-entity-id']}'` +
-                    `&$select=ParentObjectID`
-
-                response = await executeHttpRequest(
-                    destination,
-                    {
-                        method: 'get',
-                        url: apiURL
-                    }
-                )
-
-                objectID = response.data.d.results[0].ParentObjectID
-
-            } else objectID = eventObj.data['root-entity-id']
 
             const accountProperties =
                 `AccountID,` +
@@ -79,7 +59,7 @@ class CorporateAccount {
                 `CorporateAccountSalesData,` +
                 `CorporateAccountTeam,` +
                 `CorporateAccountTaxNumber` +
-                `&$filter=ObjectID eq '${objectID}'` +
+                `&$filter=ObjectID eq '${eventObj.data['root-entity-id']}'` +
                 `&$select=${accountProperties},${addressProperties},${salesDataProperties},${teamProperties},${taxNumberProperties}`
 
             response = await executeHttpRequest(
@@ -193,11 +173,11 @@ class CorporateAccount {
                         (
                             taxNumberCollection[1].TaxTypeCode === '3' &&
                             (
-                                taxNumberCollection[1].CountryCode === 'NL' || 
+                                taxNumberCollection[1].CountryCode === 'NL' ||
                                 taxNumberCollection[1].CountryCode === 'CZ' ||
-                                taxNumberCollection[1].CountryCode === 'SK' || 
+                                taxNumberCollection[1].CountryCode === 'SK' ||
                                 taxNumberCollection[1].CountryCode === 'GB' ||
-                                taxNumberCollection[1].CountryCode === 'UK' 
+                                taxNumberCollection[1].CountryCode === 'UK'
                             )
                         )
                     ) {
