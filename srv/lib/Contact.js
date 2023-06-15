@@ -65,7 +65,8 @@ class Contact {
                     `ObjectID,` +
                     `FirstBusinessPartnerID,` +
                     `SecondBusinessPartnerID,` +
-                    `RelationshipType`
+                    `RelationshipType,` +
+                    `RelationshipTypeText`
 
                 apiURL =
                     `/sap/c4c/odata/v1/c4codataapi/ContactCollection?` +
@@ -141,13 +142,13 @@ class Contact {
 
                     if (response.data.d.results.length > 0) {
                         for (let partner of response.data.d.results.entries()) {
-                            switch (partner[1].RelationshipType) {
-                                case 'Z27':
-                                    outboundMessagePayload.Entity.ApproveOrderFor.push({ ContactId: partner[1].FirstBusinessPartnerID, ObjectId: partner[1].ObjectID })
-                                    break
-                                case 'BUR001':
-                                    outboundMessagePayload.Entity.ListOfAccount.push({ ContactId: partner[1].FirstBusinessPartnerID, ObjectId: partner[1].ObjectID })
-                                    break
+                            if (partner[1].RelationshipType === 'Z27' || partner[1].RelationshipType === 'BUR001') {
+                                outboundMessagePayload.Entity.BusinessPartnerRelationship.push({
+                                    Id: partner[1].FirstBusinessPartnerID,
+                                    ObjectId: partner[1].ObjectID,
+                                    RelationshipType: partner[1].RelationshipType,
+                                    RelationshipTypeText: partner[1].RelationshipTypeText
+                                })
                             }
                         }
                     }
