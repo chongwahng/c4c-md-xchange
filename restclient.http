@@ -631,3 +631,253 @@ Content-Type: application/json
     ]
   }
 }
+
+### Individual Customer - Root.Created
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/IndividualCustomer.Root.Created",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "8bd07b3f-b002-1eee-82eb-3b834d0fe04b",
+  "event-type": "IndividualCustomer.Root.Created",
+  "event-type-version": "v1",
+  "event-id": "8bd07b3f-b002-1eee-82eb-3b834d0fe04b",
+  "event-time": "2023-06-15T08:51:36Z",
+  "data": {
+    "root-entity-id": "8BD07B3FB0021EDE82EB3154E42CBED7",
+    "entity-id": "8BD07B3FB0021EDE82EB3154E42CBED7",
+    "Changes": [
+      {
+        "node": "Individual Customer",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "ParentNodeID": "",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "ABCClassifications",
+        "nodeID": "8BD07B3FB0021EDE82EB39C01E273FBF",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "AddressDeterminationProcesses",
+        "nodeID": "8BD07B3FB0021EEE82EB3AC592A18032",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "AddressInformation",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "AddressUsage",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42F5ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Address.EMail",
+        "nodeID": "8BD07B3FB0021EDE82EB39C01E26DFBF",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Address.FormattedAddress",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42DDED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Address.PostalAddress",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42D7ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Address.Root",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Address.Telephone",
+        "nodeID": "8BD07B3FB0021EDE82EB39C01E26FFBF",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Common",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42D1ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "CurrentEmployeeResponsible",
+        "nodeID": "8BD07B3FB0021EDE82EB39C01E275FBF",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Name",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42E5ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42D1ED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      },
+      {
+        "node": "Role",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E4323ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "Modification": "Created",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": []
+      }
+    ]
+  }
+}
+
+### IndividualCustomer - Root.Updated
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/IndividualCustomer.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "8bd07b3f-b002-1eee-82eb-6f23d57d48ed",
+  "event-type": "IndividualCustomer.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "8bd07b3f-b002-1eee-82eb-6f23d57d48ed",
+  "event-time": "2023-06-15T09:03:09Z",
+  "data": {
+    "root-entity-id": "8BD07B3FB0021EDE82EB3154E42CBED7",
+    "entity-id": "8BD07B3FB0021EDE82EB3154E42CBED7",
+    "Changes": [
+      {
+        "node": "Individual Customer",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "ParentNodeID": "",
+        "Modification": "Updated",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": [
+          {
+            "Fieldname": "PartialSystemAdministrativeData/LastChangeDateTime",
+            "New": "2023-06-15T09:03:09.0582790Z",
+            "Old": "2023-06-15T08:51:36.8859530Z"
+          }
+        ]
+      },
+      {
+        "node": "AddressInformation",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E42D3ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "Modification": "Updated",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": [
+          {
+            "Fieldname": "SAP ERP Address",
+            "New": "111",
+            "Old": "101"
+          }
+        ]
+      },
+      {
+        "node": "Role",
+        "nodeID": "8BD07B3FB0021EDE82EB3154E4323ED7",
+        "ParentNodeID": "8BD07B3FB0021EDE82EB3154E42CBED7",
+        "Modification": "Updated",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": [
+          {
+            "Fieldname": "RoleCode/content",
+            "New": "CRM000",
+            "Old": "BUP002"
+          },
+          {
+            "Fieldname": "BusinessCharacterCode/content",
+            "New": "CRM000",
+            "Old": "BUP002"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+### Individual Customer - SalesData.Root.Updated
+POST http://localhost:4004/restapi/EnrichData
+Content-Type: application/json
+
+{
+  "specversion": "1.0",
+  "type": "/sap.c4c/SalesData.Root.Updated",
+  "source": "/XAF/sap.c4c/000000000740890287",
+  "id": "8bd07b3f-b002-1eee-82ee-badb785de40d",
+  "event-type": "SalesData.Root.Updated",
+  "event-type-version": "v1",
+  "event-id": "8bd07b3f-b002-1eee-82ee-badb785de40d",
+  "event-time": "2023-06-15T12:12:01Z",
+  "data": {
+    "root-entity-id": "8BD07B3FB0021EEE82ED6B710248B75B",
+    "entity-id": "8BD07B3FB0021EEE82ED6B710248B75B",
+    "Changes": [
+      {
+        "node": "Sales Data",
+        "nodeID": "8BD07B3FB0021EEE82ED6B710248B75B",
+        "ParentNodeID": "",
+        "Modification": "Updated",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": [
+          {
+            "Fieldname": "SystemAdministrativeData/LastChangeDateTime",
+            "New": "2023-06-15T12:12:01.1276100Z",
+            "Old": "2023-06-15T11:47:10.7069160Z"
+          }
+        ]
+      },
+      {
+        "node": "PricingTerms",
+        "nodeID": "8BD07B3FB0021EEE82ED6B710248B75B",
+        "ParentNodeID": "8BD07B3FB0021EEE82ED6B710248B75B",
+        "Modification": "Updated",
+        "ChangedBy": "DMOHAPATRA",
+        "ChangedFields": [
+          {
+            "Fieldname": "CurrencyCode",
+            "New": "HUF",
+            "Old": "EUR"
+          }
+        ]
+      }
+    ]
+  }
+}

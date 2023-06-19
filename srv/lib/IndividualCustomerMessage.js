@@ -35,6 +35,8 @@ class messagePayload {
                 PaymentMethods: '',
                 DeliveryMethods: '',
                 OrganisationId: '',
+                DistributionChannel: '',
+                Division: '',
                 SalesRepCode: '',
                 FidelityProgram: '',
                 TaxId: '',
@@ -43,7 +45,6 @@ class messagePayload {
                 LastName: '',
                 Email: '',
                 Phone: '',
-                Type: '',
                 Status: ''
             }
         }
