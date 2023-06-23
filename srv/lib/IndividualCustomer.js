@@ -46,6 +46,11 @@ class IndividualCustomer {
                 `IndividualCustomerSalesData/DistributionChannelCode,` +
                 `IndividualCustomerSalesData/DivisionCode`
 
+            const teamProperties =
+                `IndividualCustomerTeam/EmployeeID,` +
+                `IndividualCustomerTeam/MainIndicator,` +
+                `IndividualCustomerTeam/PartyRoleCode`
+
             const taxNumberProperties =
                 `IndividualCustomerTaxNumber/TaxID,` +
                 `IndividualCustomerTaxNumber/CountryCode,` +
@@ -56,9 +61,10 @@ class IndividualCustomer {
                 `$expand=` +
                 `IndividualCustomerAddress,` +
                 `IndividualCustomerSalesData,` +
+                `IndividualCustomerTeam,` +
                 `IndividualCustomerTaxNumber` +
                 `&$filter=ObjectID eq '${eventObj.data['root-entity-id']}'` +
-                `&$select=${customerProperties},${addressProperties},${salesDataProperties},${taxNumberProperties}`
+                `&$select=${customerProperties},${addressProperties},${salesDataProperties},${teamProperties},${taxNumberProperties}`
 
             response = await executeHttpRequest(
                 destination,
@@ -104,6 +110,28 @@ class IndividualCustomer {
                         outboundMessagePayload.Entity.DeliveryCity = address[1].City
                         outboundMessagePayload.Entity.DeliveryCountry = address[1].CountryCode
                     }
+                }
+
+                // SalesRepCode determination logic
+                // 1st rule: MainIndicator == true && PartyRoleCode == 142 ==> use it
+                // 2nd rule: if == null then ==> first obj. with PartyRoleCode == 142
+                let empID1stPriority
+                let empID2ndPriority
+
+                for (let team of customerCollection.IndividualCustomerTeam.entries()) {
+                    if (!empID1stPriority && team[1].MainIndicator === true && team[1].PartyRoleCode === '142') {
+                        empID1stPriority = team[1].EmployeeID
+                        break  // 1st rule met, stop looking
+                    }
+                    else if (team[1].PartyRoleCode === '142' && !empID2ndPriority) {
+                        empID2ndPriority = team[1].EmployeeID
+                    }
+                }
+
+                if (empID1stPriority) {
+                    outboundMessagePayload.Entity.SalesRepCode = empID1stPriority
+                } else if (empID2ndPriority) {
+                    outboundMessagePayload.Entity.SalesRepCode = empID2ndPriority
                 }
 
                 outboundMessagePayload.EventSpecInfo.OriginalEventName = eventObj['event-type']
@@ -157,9 +185,11 @@ class IndividualCustomer {
                             )
                         )
                     ) {
-                        outboundMessagePayload.Entity.TaxId = taxNumberCollection[1].TaxID
                         outboundMessagePayload.Entity.CompanyID = taxNumberCollection[1].TaxID
-                        break   // stop looking when found the 1st suitable TaxID
+                    }
+
+                    if (taxNumberCollection[1].TaxTypeCode === '1') {
+                        outboundMessagePayload.Entity.TaxId = taxNumberCollection[1].TaxID
                     }
                 }
             } else {

@@ -181,9 +181,11 @@ class CorporateAccount {
                             )
                         )
                     ) {
-                        outboundMessagePayload.Entity.TaxId = taxNumberCollection[1].TaxID
                         outboundMessagePayload.Entity.CompanyID = taxNumberCollection[1].TaxID
-                        break   // stop looking when found the 1st suitable TaxID
+                    }
+
+                    if (taxNumberCollection[1].TaxTypeCode === '1') {
+                        outboundMessagePayload.Entity.TaxId = taxNumberCollection[1].TaxID
                     }
                 }
 
