@@ -15,7 +15,6 @@ class messagePayload {
                 AccountName: '',
                 AccountStatus: '',
                 DefaultStore: '',
-                ClientGroup: '',
                 RequestChorus: '',
 
                 InvoicingHouseNumber: '',
