@@ -29,6 +29,44 @@ module.exports = async function (srv) {
         destinationName = 'c4c_ac'
     }
 
+    this.on("EnrichDataAndPublish", async (req) => {
+        let eventObj = req.data
+        let exceptionTargetObj = messagePayload.initialize()
+
+        if (eventObj) {
+            exceptionTargetObj.EventTriggeredOn = eventObj['event-time']
+            exceptionTargetObj.EventSpecInfo.OriginalEventName = eventObj['event-type']
+            try {
+                let idx = dataProviders.findIndex((obj) => obj.eventType === `${eventObj['event-type']}`)
+
+                if (idx === -1) { // cannot find data provider to handle this event, will just return unknown/exception target object
+                    return exceptionTargetObj
+                } else {
+                    var CookedObject = await dataProviders[idx].class.run(
+                        eventObj,
+                        destinationName,
+                        dataProviders[idx].targetEventType,
+                        dataProviders[idx].targetEventName,
+                        dataProviders[idx].targetObjectName,
+                        exceptionTargetObj
+                    )
+
+                    let topics = CookedObject.EventSpecInfo.TopicStrings
+                    delete CookedObject.EventSpecInfo
+
+                    for (let topic of topics) {
+                        console.log(topic)  // logic to publish event to AEM to be implemented
+                    }
+
+                    return CookedObject
+                }
+            }
+            catch (err) {
+                errorHandler.print(err)
+            }
+        }
+    })
+
     this.on('EnrichData', async (req) => {
         let eventObj = req.data
         let exceptionTargetObj = messagePayload.initialize()

@@ -1,5 +1,5 @@
 ###
-POST http://localhost:4004/restapi/EnrichData
+POST http://localhost:4004/restapi/EnrichDataAndPublish
 Content-Type: application/json
 
 {

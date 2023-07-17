@@ -18,9 +18,10 @@ service ClientLinkDataXchange @(path : 'restapi') {
     }
 
     type JsonMessage {}
-
-    action EnrichData(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data)         returns JsonMessage;
-    action VerifyEventPayload(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data) returns JsonMessage;
+    action EnrichData(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data)           returns JsonMessage;
+    action VerifyEventPayload(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data)   returns JsonMessage;
+    action EnrichDataAndPublish(specversion : String, type : String, source : String, id : String, ![event-type] : String, ![event-type-version] : String, ![event-id] : String, ![event-time] : String, data : Data) returns JsonMessage;
 }
 
 annotate ClientLinkDataXchange.EnrichData with @(requires : 'system-user');
+annotate ClientLinkDataXchange.EnrichDataAndPublish with @(requires : 'system-user');
