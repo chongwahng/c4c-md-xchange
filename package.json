@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "@sap-cloud-sdk/core": "^1.54.2",
-    "@sap/cds": "^5",
+    "@sap/cds": "^6.8.4",
     "express": "^4",
     "passport": "^0"
   },
@@ -53,7 +53,8 @@
         },
         "[production]": {
           "kind": "xsuaa"
-        }
+        },
+        "restrict_all_services": false
       }
     }
   }
